@@ -1,0 +1,76 @@
+{
+  "name": "rkta-form",
+  "version": "0.0.1",
+  "description": "A normal, catch-all form for react.",
+  "main": "./lib/index.js",
+  "scripts": {
+    "clean": "rimraf lib",
+    "test": "cross-env BABEL_ENV=commonjs mocha --require babel-core/register --recursive \"test/*.spec.js*\"",
+    "test:watch": "npm test -- --watch",
+    "test:examples": "node examples/",
+    "cover": "cross-env BABEL_ENV=commonjs istanbul cover _mocha -- --require babel-core/register --recursive",
+    "lint": "eslint src test",
+    "build": "cross-env BABEL_ENV=commonjs babel src --out-dir lib",
+    "prepublish": "npm run clean && npm run lint && npm run test && npm run build"
+  },
+  "files": [
+    "lib",
+    "src"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/r-k-t-a/rkta-form.git"
+  },
+  "keywords": [
+    "react",
+    "react-form",
+    "form-data",
+    "react-component",
+    "npm",
+    "module",
+    "node",
+    "javascript"
+  ],
+  "author": "Sergei Droganov serge@droganov.ru",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/r-k-t-a/rkta-form/issues"
+  },
+  "homepage": "https://github.com/r-k-t-a/rkta-form#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-eslint": "^8.2.1",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
+    "chai-enzyme": "^1.0.0-beta.0",
+    "chai-spies": "^1.0.0",
+    "cross-env": "^5.1.3",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-15": "^1.0.5",
+    "eslint": "^4.17.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.6.1",
+    "istanbul": "^1.1.0-alpha.1",
+    "jsdom": "^11.6.2",
+    "mocha": "^5.0.0",
+    "react-dom": "^15.6.0",
+    "react-test-renderer": "^16.2.0",
+    "rimraf": "^2.6.2"
+  },
+  "dependencies": {
+    "fbjs": "^0.8.16",
+    "get-form-data": "^2.0.0",
+    "lodash.isarray": "^4.0.0",
+    "lodash.iselement": "^4.1.1",
+    "lodash.isfunction": "^3.0.9",
+    "lodash.isobject": "^3.0.2",
+    "lodash.omit": "^4.5.0",
+    "prop-types": "^15.6.0",
+    "react": "^15.5.0"
+  }
+}
