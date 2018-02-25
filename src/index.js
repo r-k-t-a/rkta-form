@@ -1,4 +1,2 @@
-import Error from './Error';
-import Form from './Form';
-
-module.exports = { Error, Form };
+export default from './Form';
+export Error from './Error';

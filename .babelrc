@@ -1,9 +1,10 @@
 {
   "presets": [
+    "stage-1",
     "react",
     ["env", {
       "targets": {
-        "node": "6.10"
+        "browsers": ["last 2 versions", "safari >= 7"]
       }
     }]
   ],
