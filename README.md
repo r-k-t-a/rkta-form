@@ -1,7 +1,7 @@
 # Why?
 Let's make react forms normal again.
 
-## How
+## How?
 ```
 <Form onFormSubmit={dispatchAuth}>
   <input name="name" />
