@@ -7,6 +7,7 @@ Let's make react forms normal again.
   <input name="name" />
   <input name="password" />
 </Form>
+```
 
 ## Docs
 Coming soon...
