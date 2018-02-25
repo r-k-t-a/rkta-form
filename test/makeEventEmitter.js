@@ -6,13 +6,15 @@ export default (form, tracker) =>
     element.simulate(
       event,
       {
+        nativeEvent: {
+          type: eventType || event,
+        },
         preventDefault: () => null,
         target: {
           name,
           value: value || defaultValue,
           type,
         },
-        type: eventType || event,
       },
     );
     return new Promise(

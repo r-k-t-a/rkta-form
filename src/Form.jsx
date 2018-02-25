@@ -104,7 +104,7 @@ export default class Form extends Component {
   handleFormChange = (event) => {
     const { onFormChange, onFormComplete } = this.props;
     let handler;
-    if (event.type === 'input') {
+    if (event.nativeEvent.type === 'input') {
       this.lastNode = event.target;
       handler = onFormChange;
     } else {
