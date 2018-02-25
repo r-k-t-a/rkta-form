@@ -1,5 +1,12 @@
 # Why?
-Sometimes you want react forms to ~~work as normal~~ send serialised data.
+Let's make react forms normal again.
 
 ## How
-To come soon
+```
+<Form onFormSubmit={dispatchAuth}>
+  <input name="name" />
+  <input name="password" />
+</Form>
+
+## Docs
+Coming soon...
