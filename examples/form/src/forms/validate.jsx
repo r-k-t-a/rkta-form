@@ -26,6 +26,7 @@ const ChangeForm = () =>
     prevalidate={prevalidate}
     validate={validate}
     postvalidate={postvalidate}
+    onFormChange={console.log}
     onFormSubmit={console.log}
   >
     <div>

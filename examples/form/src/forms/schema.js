@@ -19,7 +19,7 @@ export default ({ maximum, minimum }) => ({
     maximum: {
       default: null,
       type: ['integer', 'null'],
-      minimum: maximum && { $data: '1/minimum' },
+      minimum: { $data: '1/minimum' },
       messages: {
         type: 'Should be a zero or more',
         minimum: `Should exceed ${minimum || 0}`,
