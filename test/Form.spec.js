@@ -26,9 +26,8 @@ describe('live=true', () => {
 });
 
 describe('onFormChange', () => {
-  const emit = makeForm({}, 'onFormChange', 'validate');
-  it('validates and then triggers onFormChange', () =>
-    emit('change', '#text', 'input')
+  it('validates and fires onFormChange', () =>
+    makeForm({}, 'onFormChange', 'onFormComplete', 'validate')('change', '#text', 'input')
       .should
       .eventually
       .deep
@@ -36,18 +35,32 @@ describe('onFormChange', () => {
         validate: 'validate',
         onFormChange: 'onFormChange',
       }));
+  it('ignores onFormComplete', () =>
+    makeForm({}, 'onFormComplete', 'validate')('change', '#text', 'input')
+      .should
+      .eventually
+      .deep
+      .equal({}));
 });
 
 describe('onFormComplete', () => {
-  const emit = makeForm({}, 'onFormComplete', 'validate');
-  it('validates and then triggers onFormComplete', () =>
-    emit('change', '#text')
+  it('validates and prefers onFormComplete', () =>
+    makeForm({}, 'onFormChange', 'onFormComplete', 'validate')('change', '#text')
       .should
       .eventually
       .deep
       .equal({
         validate: 'validate',
         onFormComplete: 'onFormComplete',
+      }));
+  it('validates and emits onFormChange id onFormComplete is not provided', () =>
+    makeForm({}, 'onFormChange', 'validate')('change', '#text')
+      .should
+      .eventually
+      .deep
+      .equal({
+        validate: 'validate',
+        onFormChange: 'onFormChange',
       }));
 });
 

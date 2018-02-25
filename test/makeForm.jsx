@@ -9,7 +9,7 @@ const mountForm = (props, handlers) =>
   mount(
     <Form {...props} {...handlers}>
       <input id="text" type="text" name="text" defaultValue="text" />
-      <input type="radio" name="radio" defaultValue="radio" defaultChecked />
+      <input id="radio" type="radio" name="radio" defaultValue="radio" defaultChecked />
       <input type="checkbox" name="checkbox" defaultValue="checkbox" defaultChecked />
     </Form>,
   );

@@ -108,7 +108,7 @@ export default class Form extends Component {
       this.lastNode = event.target;
       handler = onFormChange;
     } else {
-      handler = onFormComplete;
+      handler = onFormComplete || onFormChange;
     }
     this.emitEvent(handler, event.target.name);
     event.stopPropagation();
