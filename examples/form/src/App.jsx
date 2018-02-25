@@ -1,47 +1,27 @@
 import React from 'react';
-import { Form } from 'rkta-form';
 
 import './App.css';
 
+import Submit from './forms/submit';
+import Change from './forms/change';
+import Complete from './forms/complete';
+import Validate from './forms/validate';
+
 export default () => (
-  <div>
-    <h2>Handle Submit</h2>
-    <Form onFormSubmit={console.log}>
-      <input type="text" name="login" />
-      <br />
-      <input type="password" name="password" />
-      <br />
-      <button type="submit">
-        Login
-      </button>
-    </Form>
-    <h2>Handle Change</h2>
-    <Form onFormChange={console.log}>
-      <textarea name="text" cols="30" rows="10" />
-      <div>
-        <label>
-          <input type="checkbox" name="option" defaultValue="1" /> Option 1
-        </label>
-      </div>
-      <div>
-        <label>
-          <input type="checkbox" name="option" defaultValue="2" /> Option 2
-        </label>
-      </div>
-    </Form>
-    <h2>Handle Complete (optimised change)</h2>
-    <Form onFormComplete={console.log}>
-      <textarea name="text" cols="30" rows="10" />
-      <div>
-        <label>
-          <input type="checkbox" name="option" defaultValue="1" /> Option 1
-        </label>
-      </div>
-      <div>
-        <label>
-          <input type="checkbox" name="option" defaultValue="2" /> Option 2
-        </label>
-      </div>
-    </Form>
+  <div style={{ padding: 16 }}>
+    <h4>Handle Submit</h4>
+    <Submit />
+    <hr />
+
+    <h4>Handle Change</h4>
+    <Change />
+    <hr />
+
+    <h4>Handle Complete</h4>
+    <Complete />
+    <hr />
+
+    <h4>Validated Form</h4>
+    <Validate />
   </div>
 );
