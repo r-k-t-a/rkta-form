@@ -18,7 +18,7 @@ const prevalidate = ({ minimum, maximum, ...form }) => ({
 const validate = makeValidator(makeSchema);
 const postvalidate = form => ({
   ...form,
-  postvalidate: 'prevalidate hook allows to modify form data, after validation',
+  postvalidate: 'postvalidate hook allows to modify form data, after validation',
 });
 
 const ChangeForm = () =>
