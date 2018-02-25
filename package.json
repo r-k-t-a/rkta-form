@@ -1,6 +1,6 @@
 {
   "name": "rkta-form",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A normal, catch-all form for react.",
   "main": "./lib/index.js",
   "scripts": {
