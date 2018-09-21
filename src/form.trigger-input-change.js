@@ -1,14 +1,14 @@
 require('custom-event-polyfill');
 
 const triggerInputChange = (node, value) => {
+  const event = new CustomEvent('input', { bubbles: true });
   try {
-    const event = new CustomEvent('input', { bubbles: true });
     const setValue = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set;
     setValue.call(node, value);
-    node.dispatchEvent(event);
   } catch (error) {
-    window.Bugsnag.notify(error);
+    node.setAttribute('value', value);
   }
+  node.dispatchEvent(event);
 };
 
 export default triggerInputChange;

@@ -7,6 +7,8 @@ import isFunction from 'lodash.isfunction';
 import isObject from 'lodash.isobject';
 import getFormData from 'get-form-data';
 
+import compareNodes from './compare-nodes';
+
 export default class Form extends Component {
   static propTypes = {
     children: PropTypes.node,
@@ -115,7 +117,7 @@ export default class Form extends Component {
   }
   handleFormBlur = (event) => {
     let eventHandler;
-    if (isElement(this.lastNode) && event.target.isSameNode(this.lastNode)) {
+    if (compareNodes(event.target, this.lastNode)) {
       eventHandler = this.props.onFormComplete;
       this.lastNode = null;
     }
