@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import invariant from 'fbjs/lib/invariant';
 import omit from 'lodash.omit';
-import isElement from 'lodash.iselement';
 import isFunction from 'lodash.isfunction';
 import isObject from 'lodash.isobject';
 import getFormData from 'get-form-data';

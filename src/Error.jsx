@@ -1,13 +1,18 @@
 import PropTypes from 'prop-types';
 
-const Error = ({ name }, { errors }) => {
+const Error = ({ children, name }, { errors }) => {
   const ownErrors = errors.filter(({ property }) => property === name);
   if (ownErrors.length === 0) return null;
   const { message } = ownErrors.shift();
+  if (typeof children === 'function') return children(message);
   return message;
 };
-Error.defaultProps = {
+Error.propTypes = {
+  children: PropTypes.func,
   name: PropTypes.string,
+};
+Error.defaultProps = {
+  children: null,
 };
 Error.contextTypes = {
   errors: PropTypes.arrayOf(
