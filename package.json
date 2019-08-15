@@ -61,7 +61,7 @@
     "mocha": "^5.0.0",
     "react-dom": "^15.6.0",
     "react-test-renderer": "^16.2.0",
-    "rimraf": "^2.6.2"
+    "rimraf": "^3.0.0"
   },
   "dependencies": {
     "custom-event-polyfill": "^1.0.6",
