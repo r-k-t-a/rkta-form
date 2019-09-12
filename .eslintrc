@@ -1,13 +1,30 @@
-{
-  "parser": "babel-eslint",
-  "extends": "airbnb",
-  "env": {
-    "browser": true,
-    "mocha": true,
-    "node": true
-  },
-  "rules": {
-    "import/prefer-default-export": 0,
-    "function-paren-newline": ["error", "consistent"]
-  }
-}
+---
+  root: true
+  env:
+    browser: true
+    mocha: true
+    node: true
+  parser: 'babel-eslint'
+  plugins:
+    - prettier
+    - react
+  extends:
+    - airbnb
+    - plugin:prettier/recommended
+  parserOptions:
+    ecmaVersion: 6
+    project: ./tsconfig.json
+    sourceType: module
+  rules:
+    import/prefer-default-export: off
+    react/destructuring-assignment: off
+    quotes:
+      - error
+      - single
+    prettier/prettier: error
+    react/jsx-filename-extension:
+      - 1
+      - extensions:
+        - .jsx
+        - .tsx
+    react/jsx-props-no-spreading: off
