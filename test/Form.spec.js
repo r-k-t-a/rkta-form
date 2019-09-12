@@ -79,7 +79,7 @@ describe('validation flow', () => {
     return Promise.resolve(validatedForm);
   };
   const postvalidate = form => {
-    const postvalidatedForm = { ...data, ...form, postvalidated: true };
+    const postvalidatedForm = Object.assign(data, form, { postvalidated: true });
     return postvalidatedForm;
   };
 
