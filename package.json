@@ -65,7 +65,7 @@
   },
   "dependencies": {
     "custom-event-polyfill": "^1.0.6",
-    "fbjs": "^0.8.16",
+    "fbjs": "^1.0.0",
     "get-form-data": "^2.0.0",
     "lodash.isarray": "^4.0.0",
     "lodash.iselement": "^4.1.1",
