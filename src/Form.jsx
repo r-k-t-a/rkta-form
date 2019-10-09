@@ -7,42 +7,20 @@ import isObject from 'lodash.isobject';
 import getFormData from 'get-form-data';
 
 import compareNodes from './compare-nodes';
+import Context from './Context';
 
 export default class Form extends Component {
-  static propTypes = {
-    children: PropTypes.node,
-    live: PropTypes.bool,
-    onFormChange: PropTypes.func,
-    onFormComplete: PropTypes.func,
-    onFormSubmit: PropTypes.func,
-    onValidationError: PropTypes.func,
-    prevalidate: PropTypes.func,
-    validate: PropTypes.func,
-    postvalidate: PropTypes.func,
-  };
-  static defaultProps = {
-    children: undefined,
-    live: false,
-    onFormChange: undefined,
-    onFormComplete: undefined,
-    onFormSubmit: undefined,
-    onValidationError: undefined,
-    prevalidate: form => form,
-    postvalidate: form => form,
-    validate: undefined,
-  };
-  static childContextTypes = {
-    errors: PropTypes.array,
-  };
+  errors = [];
 
-  getChildContext = () => ({ errors: this.errors });
-  get formData() {
-    return getFormData(this.node);
-  }
   get formProps() {
     const keys = Object.keys(Form.propTypes);
     return omit(this.props, keys);
   }
+
+  get formData() {
+    return getFormData(this.node);
+  }
+
   setErrors = (errors = []) => {
     const { onValidationError } = this.props;
     invariant(Array.isArray(errors), 'Validate should return an Array.');
@@ -51,58 +29,9 @@ export default class Form extends Component {
     if (!onValidationError) return;
     invariant(isFunction(onValidationError), 'onValidationError should be a function.');
     onValidationError(this.errors);
-  }
-  errors = [];
-  reset() {
-    this.node.reset();
-  }
-  hasErrors() {
-    return this.errors.length !== 0;
-  }
-  shouldValidate(handleEvent) {
-    const { live } = this.props;
-    if (this.hasErrors() || live) return true;
-    return isFunction(handleEvent);
-  }
-  prevalidate = (form) => {
-    const { prevalidate } = this.props;
-    if (!prevalidate) return Promise.resolve(form);
-    invariant(isFunction(prevalidate), 'Prevalidate prop should be a function.');
-    const nextForm = prevalidate(form);
-    return Promise.resolve(nextForm);
-  }
-  makeValidator = inputName => (prevalidatedForm) => {
-    if (!this.props.validate) return Promise.resolve(prevalidatedForm);
-    invariant(isFunction(this.props.validate), 'Validate prop should be a function.');
-    invariant(isObject(prevalidatedForm), 'Prevalidate should return a form object.');
-    const args = [prevalidatedForm, inputName, this.errors];
-    return this.props.validate(...args).catch((errors) => {
-      this.setErrors(errors);
-      return Promise.reject(errors);
-    });
-  }
-  postvalidate = (validatedForm) => {
-    const { postvalidate } = this.props;
-    if (!postvalidate) return Promise.resolve(validatedForm);
-    this.setErrors([]);
-    invariant(isFunction(postvalidate), 'Postvalidate prop should be a function.');
-    const nextForm = postvalidate(validatedForm);
-    return Promise.resolve(nextForm);
-  }
-  emitEvent = (handleEvent, inputName) => {
-    if (handleEvent) {
-      invariant(isFunction(handleEvent), 'Event handler should be a function.');
-    } else if (!this.shouldValidate(handleEvent)) {
-      if (isFunction(handleEvent)) handleEvent(this.formData);
-      return;
-    }
-    this
-      .prevalidate(this.formData)
-      .then(this.makeValidator(inputName))
-      .then(this.postvalidate)
-      .then(handleEvent);
-  }
-  handleFormChange = (event) => {
+  };
+
+  handleFormChange = event => {
     const { onFormChange, onFormComplete } = this.props;
     let handler;
     if (event.nativeEvent.type === 'input') {
@@ -113,22 +42,81 @@ export default class Form extends Component {
     }
     this.emitEvent(handler, event.target.name);
     event.stopPropagation();
-  }
-  handleFormBlur = (event) => {
+  };
+
+  handleFormBlur = event => {
     let eventHandler;
     if (compareNodes(event.target, this.lastNode)) {
       eventHandler = this.props.onFormComplete;
       this.lastNode = null;
     }
     this.emitEvent(eventHandler, event.target.name);
-  }
-  handleFormSubmit = (event) => {
+  };
+
+  handleFormSubmit = event => {
     event.preventDefault();
     this.emitEvent(this.props.onFormSubmit);
-  }
-  handleRef = (node) => {
+  };
+
+  handleRef = node => {
     this.node = node;
+  };
+
+  emitEvent = (handleEvent, inputName) => {
+    if (handleEvent) {
+      invariant(isFunction(handleEvent), 'Event handler should be a function.');
+    } else if (!this.shouldValidate(handleEvent)) {
+      if (isFunction(handleEvent)) handleEvent(this.formData);
+      return;
+    }
+    this.prevalidate(this.formData)
+      .then(this.makeValidator(inputName))
+      .then(this.postvalidate)
+      .then(handleEvent);
+  };
+
+  prevalidate = form => {
+    const { prevalidate } = this.props;
+    if (!prevalidate) return Promise.resolve(form);
+    invariant(isFunction(prevalidate), 'Prevalidate prop should be a function.');
+    const nextForm = prevalidate(form);
+    return Promise.resolve(nextForm);
+  };
+
+  makeValidator = inputName => prevalidatedForm => {
+    if (!this.props.validate) return Promise.resolve(prevalidatedForm);
+    invariant(isFunction(this.props.validate), 'Validate prop should be a function.');
+    invariant(isObject(prevalidatedForm), 'Prevalidate should return a form object.');
+    const args = [prevalidatedForm, inputName, this.errors];
+    return this.props.validate(...args).catch(errors => {
+      this.setErrors(errors);
+      return Promise.reject(errors);
+    });
+  };
+
+  postvalidate = validatedForm => {
+    const { postvalidate } = this.props;
+    if (!postvalidate) return Promise.resolve(validatedForm);
+    this.setErrors([]);
+    invariant(isFunction(postvalidate), 'Postvalidate prop should be a function.');
+    const nextForm = postvalidate(validatedForm);
+    return Promise.resolve(nextForm);
+  };
+
+  shouldValidate(handleEvent) {
+    const { live } = this.props;
+    if (this.hasErrors() || live) return true;
+    return isFunction(handleEvent);
   }
+
+  reset() {
+    this.node.reset();
+  }
+
+  hasErrors() {
+    return this.errors.length !== 0;
+  }
+
   render = () => (
     <form
       {...this.formProps}
@@ -137,7 +125,31 @@ export default class Form extends Component {
       onSubmit={this.handleFormSubmit}
       ref={this.handleRef}
     >
-      {this.props.children}
+      <Context.Provider value={{ errors: this.errors }}>{this.props.children}</Context.Provider>
     </form>
   );
 }
+
+Form.propTypes = {
+  children: PropTypes.node,
+  live: PropTypes.bool,
+  onFormChange: PropTypes.func,
+  onFormComplete: PropTypes.func,
+  onFormSubmit: PropTypes.func,
+  onValidationError: PropTypes.func,
+  prevalidate: PropTypes.func,
+  validate: PropTypes.func,
+  postvalidate: PropTypes.func,
+};
+
+Form.defaultProps = {
+  children: undefined,
+  live: false,
+  onFormChange: undefined,
+  onFormComplete: undefined,
+  onFormSubmit: undefined,
+  onValidationError: undefined,
+  prevalidate: form => form,
+  postvalidate: form => form,
+  validate: undefined,
+};
